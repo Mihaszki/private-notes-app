@@ -32,10 +32,10 @@ router.post('/login', async (req, res) => {
   try {
     // Check if user exists
     const user = await userModel.findOne({ username: req.body.username }).exec();
-    if(user === null) return res.status(400).json({ message: 'Bad login or password!' });
+    if(user === null) return res.status(400).json({ message: 'Bad username or password!' });
 
     user.comparePassword(req.body.password, (err, isMatch) => {
-      if(!isMatch) return res.status(400).json({ message: 'Bad login or password!' });
+      if(!isMatch) return res.status(400).json({ message: 'Bad username or password!' });
 
       // Generate jwt bearer token 
       const jwtBearerToken = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
@@ -45,7 +45,7 @@ router.post('/login', async (req, res) => {
 
       res.status(200).json({
         username: req.body.username,
-        idToken: jwtBearerToken,
+        token: jwtBearerToken,
         expiresIn: process.env.JWT_EXPIRES_IN
       });
     });
