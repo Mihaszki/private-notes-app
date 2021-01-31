@@ -2,11 +2,13 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const mongoose = require('mongoose');
+const cors = require('cors');
 require('dotenv').config();
 
 const userAuth = require('./routers/auth');
 const notesRoute = require('./routers/notes');
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
