@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, tap, shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +10,20 @@ export class AuthService {
   login(username: string, password: string) {
     return this.http.post<any>('http://localhost:3000/api/auth/login', { username: username, password: password })
     .pipe(
-      catchError(this.handleError)
+      tap((data: any) => this.createSession(data)),
+      catchError(this.handleError),
+      shareReplay()
     );
+  }
+
+  private createSession(data: any) {
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('expires_in', data.expiresIn);
+  }
+
+  logoutSession() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expires_in');
   }
 
   private handleError(error: HttpErrorResponse) {
