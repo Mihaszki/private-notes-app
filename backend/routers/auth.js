@@ -45,7 +45,8 @@ router.post('/login', async (req, res) => {
 
       res.status(200).json({
         username: req.body.username,
-        token: jwtBearerToken
+        token: jwtBearerToken,
+        expiresIn: process.env.JWT_EXPIRES_IN
       });
     });
   }
