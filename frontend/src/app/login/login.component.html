@@ -1,18 +1,34 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <label>
-    Username:
-    <input type="text" formControlName="userName">
-  </label>
+  <div>
+    <label>
+      Username:
+      <input type="text" formControlName="userName" required>
+    </label>
+    <div *ngIf="userName && userName.invalid && (userName.dirty || userName.touched)">
+      <div *ngIf="userName.errors?.required">Name is required.</div>
+    </div>
+  </div>
 
-  <label>
-    Password:
-    <input type="password" formControlName="password">
-  </label>
+  <div>
+    <label>
+      Password:
+      <input type="password" formControlName="password" required>
+    </label>
+    <div *ngIf="password && password.invalid && (password.dirty || password.touched)">
+      <div *ngIf="password.errors?.required">Password is required.</div>
+    </div>
+  </div>
 
-  <label>
-    Confirm password:
-    <input type="password" formControlName="confirmPassword">
-  </label>
+  <div>
+    <label>
+      Confirm password:
+      <input type="password" formControlName="confirmPassword" required>
+    </label>
+    <div *ngIf="confirmPassword && confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">
+      <div *ngIf="confirmPassword.errors?.required">Confirm password is required.</div>
+      <div *ngIf="confirmPassword.errors?.confirmedValidator">Passwords do not match.</div>
+    </div>
+  </div>
 
   <button type="submit" [disabled]="!loginForm.valid">Login</button>
 </form>
