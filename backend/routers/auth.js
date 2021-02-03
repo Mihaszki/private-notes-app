@@ -14,7 +14,7 @@ router.post('/register', async (req, res) => {
   try {
     // Check if user exists
     const userExists = await userModel.exists({ username: req.body.username });
-    if(userExists) return res.status(400).json({ message: 'User already exists!' });
+    if(userExists) return res.status(400).json({ error: 'User already exists!' });
 
     // Save user to DB
     const savedUser = await user.save();
@@ -24,7 +24,10 @@ router.post('/register', async (req, res) => {
     });
   }
   catch (err) {
-    res.status(400).json({ err });
+    res.status(400).json({ error: {
+      username: err.errors.username?.properties.type,
+      password: err.errors.password?.properties.type,
+    }});
   }
 });
 
@@ -32,10 +35,10 @@ router.post('/login', async (req, res) => {
   try {
     // Check if user exists
     const user = await userModel.findOne({ username: req.body.username }).exec();
-    if(user === null) return res.status(400).json({ message: 'Bad username or password!' });
+    if(user === null) return res.status(400).json({ error: 'Bad username or password!' });
 
     user.comparePassword(req.body.password, (err, isMatch) => {
-      if(!isMatch) return res.status(400).json({ message: 'Bad username or password!' });
+      if(!isMatch) return res.status(400).json({ error: 'Bad username or password!' });
 
       // Generate jwt bearer token 
       const jwtBearerToken = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
