@@ -24,7 +24,11 @@ export class RegisterComponent implements OnInit {
   });
 
   onSubmit() {
-    console.log(this.registerForm.value);
+    this.authService.register(this.registerForm.controls['userName'].value,
+    this.registerForm.controls['password'].value)
+    .subscribe(() => {
+      this.router.navigate(['../login?message=newaccount'], { relativeTo: this.route });
+    }, error => console.log(error));
   }
 
   get userName() { return this.registerForm.get('userName'); }

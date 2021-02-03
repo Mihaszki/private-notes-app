@@ -12,7 +12,13 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.queryParamMap.subscribe((params) => {
+      if(params.get('message') === 'newaccount') this.newAccount = true;
+      else this.newAccount = false;
+    });
   }
+
+  newAccount: boolean = false;
 
   loginForm = this.fb.group({
     userName: ['', Validators.required],
@@ -20,7 +26,6 @@ export class LoginComponent implements OnInit {
   });
 
   onSubmit() {
-    console.log(this.loginForm.value);
     this.authService.login(this.loginForm.controls['userName'].value,
     this.loginForm.controls['password'].value)
     .subscribe(() => {

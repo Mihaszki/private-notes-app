@@ -1,4 +1,6 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <div *ngIf="this.newAccount">Your account just got created! Please, sign in.</div>
+
   <div>
     <label>
       Username:
