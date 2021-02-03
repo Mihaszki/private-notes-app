@@ -19,16 +19,5 @@
     </div>
   </div>
 
-  <div>
-    <label>
-      Confirm password:
-      <input type="password" formControlName="confirmPassword" required>
-    </label>
-    <div *ngIf="confirmPassword && confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">
-      <div *ngIf="confirmPassword.errors?.required">Confirm password is required.</div>
-      <div *ngIf="confirmPassword.errors?.confirmedValidator">Passwords do not match.</div>
-    </div>
-  </div>
-
   <button type="submit" [disabled]="!loginForm.valid">Login</button>
 </form>

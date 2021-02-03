@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { confirmedValidator } from '../shared/confirmed.validator';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,22 +9,23 @@ import { confirmedValidator } from '../shared/confirmed.validator';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  constructor(private authService: AuthService, private fb: FormBuilder) { }
+  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
   }
 
   loginForm = this.fb.group({
     userName: ['', Validators.required],
-    password: ['', Validators.required],
-    confirmPassword: ['', Validators.required]
-  }, { validators: confirmedValidator('password', 'confirmPassword') });
+    password: ['', Validators.required]
+  });
 
   onSubmit() {
     console.log(this.loginForm.value);
     this.authService.login(this.loginForm.controls['userName'].value,
     this.loginForm.controls['password'].value)
-    .subscribe(data => console.log(data), error => console.log(error));
+    .subscribe(() => {
+      this.router.navigate(['../notes'], { relativeTo: this.route });
+    }, error => console.log(error));
   }
 
   get userName() { return this.loginForm.get('userName'); }
