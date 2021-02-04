@@ -1,25 +1,36 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <div *ngIf="this.newAccount">Your account just got created! Please, sign in.</div>
+<div class="bgimage"></div>
+<div class="form">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h1>Sign in</h1>
+    <div *ngIf="this.newAccount" class="messagebox">Your account just got created! Please, sign in.</div>
 
-  <div>
-    <label>
-      Username:
-      <input type="text" formControlName="userName" required>
-    </label>
-    <div *ngIf="userName && userName.invalid && (userName.dirty || userName.touched)">
-      <div *ngIf="userName.errors?.required">Name is required.</div>
+    <div>
+      <label>
+        Username:
+        <input type="text" formControlName="userName" required>
+      </label>
+
+      <div class="error">
+        <div *ngIf="userName && userName.invalid && (userName.dirty || userName.touched)">
+          <div *ngIf="userName.errors?.required">Name is required.</div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div>
-    <label>
-      Password:
-      <input type="password" formControlName="password" required>
-    </label>
-    <div *ngIf="password && password.invalid && (password.dirty || password.touched)">
-      <div *ngIf="password.errors?.required">Password is required.</div>
+    <div>
+      <label>
+        Password:
+        <input type="password" formControlName="password" required>
+      </label>
+
+      <div class="error">
+        <div *ngIf="password && password.invalid && (password.dirty || password.touched)">
+          <div *ngIf="password.errors?.required">Password is required.</div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <button type="submit" [disabled]="!loginForm.valid">Login</button>
-</form>
+    <button type="submit" [disabled]="!loginForm.valid">Login</button>
+    <p>Are you new? <a routerLink="/register">Create an account.</a></p>
+  </form>
+</div>

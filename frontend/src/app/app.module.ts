@@ -10,6 +10,7 @@ import { NotesComponent } from './notes/notes.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { httpInterceptorProviders } from './http-interceptors/index';
+import { HeaderComponent } from './header/header.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { httpInterceptorProviders } from './http-interceptors/index';
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    NotesComponent
+    NotesComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

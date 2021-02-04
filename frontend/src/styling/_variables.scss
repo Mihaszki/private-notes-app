@@ -1,0 +1,26 @@
+$background1:#f7f7f7;
+$background2: #efefef;
+
+$primaryBg1: #651fff;
+$primaryBg2: #0100ca;
+
+$colorLight: #ffffff;
+$colorDark: #030303;
+$colorError: #f70909;
+
+$btnBg: #d6d6d6;
+$btnBgHover: #e9e9e9;
+
+$messageBoxBg: green;
+
+@mixin box-shadow {
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.75);
+}
+
+.error {
+  height: 20px;
+  color: $colorError;
+  font-size: 0.9rem;
+}
