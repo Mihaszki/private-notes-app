@@ -3,7 +3,6 @@ require('dotenv').config();
 
 module.exports = (req, res, next) => {
   const header = req.header('Authorization');
-  console.log(header);
   if(!header) res.status(401).send('Access Denied');
 
   const token = header.split(' ')[1];
