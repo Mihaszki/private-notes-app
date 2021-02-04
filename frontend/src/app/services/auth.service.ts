@@ -14,10 +14,12 @@ export class AuthService {
 
   // Access Guard
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if(!localStorage.getItem('token') && (state.url === '/login' || state.url === '/register')) {
+    // Get clean URL without parameters
+    const url = state.url.split('?')[0];
+    if(!localStorage.getItem('token') && (url === '/login' || url === '/register')) {
       return true;
     }
-    else if(localStorage.getItem('token') && (state.url === '/login' || state.url === '/register')) {
+    else if(localStorage.getItem('token') && (url === '/login' || url === '/register')) {
       this.router.navigate(['../notes'], { relativeTo: this.route });
       return false;
     }
