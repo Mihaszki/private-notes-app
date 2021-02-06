@@ -1,0 +1,30 @@
+<app-header></app-header>
+
+<div class="content">
+  <h2>{{ formTitle }}</h2>
+  <form [formGroup]="editorForm" (ngSubmit)="onSubmit()">
+    <label>
+      Title:
+      <input type="text" formControlName="title" maxlength="100" required>
+    </label>
+    <div class="error">
+      <div *ngIf="title && title.invalid && (title.dirty || title.touched)">
+        <div *ngIf="title.errors?.required">Title is required.</div>
+        <div *ngIf="title.errors?.maxlength">Title is too long.</div>
+      </div>
+    </div>
+
+    <label>
+      Text:
+      <textarea formControlName="text" maxlength="1000" required></textarea>
+    </label>
+    <div class="error">
+      <div *ngIf="text && text.invalid && (text.dirty || text.touched)">
+        <div *ngIf="text.errors?.required">Text is required.</div>
+        <div *ngIf="text.errors?.maxlength">Text is too long.</div>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="!editorForm.valid">Save</button>
+  </form>
+</div>

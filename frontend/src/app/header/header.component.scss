@@ -1,0 +1,27 @@
+@import '../../styling/variables';
+
+.header {
+  background: $primaryBg2;
+  width: 100%;
+  box-shadow: 0px 0px 4px 1px $boxShadowColor;
+  overflow: hidden;
+
+  a {
+    color: $colorLight;
+    text-decoration: none;
+    display: block;
+    padding: 14px 16px;
+    text-align: center;
+    margin: 0;
+    font-size: 1.2rem;
+  }
+
+  a:hover {
+    background: $primaryBg1;
+    cursor: pointer;
+  }
+
+  a {float: left; transition: 1s all;}
+
+  a.right {float: right;}
+}

@@ -2,8 +2,8 @@
 <div class="form">
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <h1>Sign in</h1>
-    <div *ngIf="this.newAccount" class="messagebox">Your account just got created! Please, sign in.</div>
-
+    <div *ngIf="newAccount" class="messagebox">Your account just got created! Please, sign in.</div>
+    <div *ngIf="logoutMessage" class="messagebox">You just logged out.</div>
     <div>
       <label>
         Username:
@@ -31,6 +31,9 @@
     </div>
 
     <button type="submit" [disabled]="!loginForm.valid">Login</button>
+    <div class="error">
+      <div *ngIf="isBackendError">{{ backendErrorMessage }}</div>
+    </div>
     <p>Are you new? <a routerLink="/register">Create an account.</a></p>
   </form>
 </div>

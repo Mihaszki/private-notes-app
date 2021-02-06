@@ -5,7 +5,7 @@
     <div>
       <label>
         Username:
-        <input type="text" formControlName="userName" required>
+        <input type="text" formControlName="userName" maxlength="20" required>
       </label>
       <div class="error">
         <div *ngIf="userName && userName.invalid && (userName.dirty || userName.touched)">
@@ -18,7 +18,7 @@
     <div>
       <label>
         Password:
-        <input type="password" formControlName="password" required>
+        <input type="password" formControlName="password" maxlength="20" required>
       </label>
       <div class="error">
         <div *ngIf="password && password.invalid && (password.dirty || password.touched)">
@@ -31,7 +31,7 @@
     <div>
       <label>
         Confirm password:
-        <input type="password" formControlName="confirmPassword" required>
+        <input type="password" formControlName="confirmPassword" maxlength="20" required>
       </label>
       <div class="error">
         <div *ngIf="confirmPassword && confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">
@@ -42,6 +42,9 @@
     </div>
   
     <button type="submit" [disabled]="!registerForm.valid">Register</button>
+    <div class="error">
+      <div *ngIf="isBackendError">{{ backendErrorMessage }}</div>
+    </div>
     <p>Already have an account? <a routerLink="/login">Sign in.</a></p>
   </form>
 </div>

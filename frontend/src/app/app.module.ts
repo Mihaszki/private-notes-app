@@ -11,6 +11,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { httpInterceptorProviders } from './http-interceptors/index';
 import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { NoteEditorComponent } from './note-editor/note-editor.component';
+import { ViewNoteComponent } from './view-note/view-note.component';
 
 
 @NgModule({
@@ -19,7 +22,10 @@ import { HeaderComponent } from './header/header.component';
     LoginComponent,
     RegisterComponent,
     NotesComponent,
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent,
+    NoteEditorComponent,
+    ViewNoteComponent
   ],
   imports: [
     BrowserModule,

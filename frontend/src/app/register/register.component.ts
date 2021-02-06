@@ -15,6 +15,9 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  isBackendError: boolean = false;
+  backendErrorMessage: string = '';
+
   registerForm = this.fb.group({
     userName: ['', [Validators.required, Validators.maxLength(20)]],
     password: ['', [Validators.required, Validators.maxLength(20)]],
@@ -27,8 +30,11 @@ export class RegisterComponent implements OnInit {
     this.authService.register(this.registerForm.controls['userName'].value,
     this.registerForm.controls['password'].value)
     .subscribe(() => {
-      this.router.navigate(['../login?message=newaccount'], { relativeTo: this.route });
-    }, error => console.log(error));
+      this.router.navigate(['../login'], { relativeTo: this.route, queryParams: { message: 'newaccount' } });
+    }, error => {
+      this.isBackendError = true;
+      this.backendErrorMessage = error;
+    });
   }
 
   get userName() { return this.registerForm.get('userName'); }

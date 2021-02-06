@@ -14,11 +14,14 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params) => {
       if(params.get('message') === 'newaccount') this.newAccount = true;
-      else this.newAccount = false;
+      else if(params.get('message') === 'logout') this.logoutMessage = true;
     });
   }
 
   newAccount: boolean = false;
+  logoutMessage: boolean = false;
+  isBackendError: boolean = false;
+  backendErrorMessage: string = '';
 
   loginForm = this.fb.group({
     userName: ['', Validators.required],
@@ -30,7 +33,10 @@ export class LoginComponent implements OnInit {
     this.loginForm.controls['password'].value)
     .subscribe(() => {
       this.router.navigate(['../notes'], { relativeTo: this.route });
-    }, error => console.log(error));
+    }, error => {
+      this.isBackendError = true;
+      this.backendErrorMessage = error;
+    });
   }
 
   get userName() { return this.loginForm.get('userName'); }

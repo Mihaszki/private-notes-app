@@ -57,6 +57,7 @@ export class AuthService {
   logoutSession() {
     localStorage.removeItem('token');
     localStorage.removeItem('expires_in');
+    this.router.navigate(['../login'], { queryParams: { message: 'logout' }, relativeTo: this.route });
   }
 
   checkSession() {
