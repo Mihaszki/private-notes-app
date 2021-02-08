@@ -5,6 +5,7 @@ import { NotesComponent } from './notes/notes.component';
 import { NoteEditorComponent } from './note-editor/note-editor.component';
 import { ViewNoteComponent } from './view-note/view-note.component';
 import { RegisterComponent } from './register/register.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthService } from './services/auth.service';
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: 'notes', component: NotesComponent, canActivate: [AuthService] },
   { path: 'notes/new', component: NoteEditorComponent, canActivate: [AuthService] },
   { path: 'notes/view/:id', component: ViewNoteComponent, canActivate: [AuthService] },
-  { path: 'notes/edit/:id', component: NoteEditorComponent, canActivate: [AuthService] }
+  { path: 'notes/edit/:id', component: NoteEditorComponent, canActivate: [AuthService] },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

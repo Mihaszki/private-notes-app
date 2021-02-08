@@ -20,14 +20,15 @@ export class AuthService {
       return true;
     }
     else if(localStorage.getItem('token') && (url === '/login' || url === '/register')) {
-      this.router.navigate(['../notes'], { relativeTo: this.route });
+      this.router.navigate(['/notes']);
       return false;
     }
     else if(localStorage.getItem('token')) {
+      if(!this.checkSession()) return false;
       return true;
     }
     else {
-      this.router.navigate(['../login'], { relativeTo: this.route });
+      this.router.navigate(['/login']);
       return false;
     }
   }
@@ -51,18 +52,31 @@ export class AuthService {
 
   private createSession(data: any) {
     localStorage.setItem('token', data.token);
-    localStorage.setItem('expires_in', data.expiresIn);
+    // Time is in minutes e.g. 10m
+    const expiresIn: number = parseInt(data.expiresIn);
+    const now = new Date();
+    const expiresAt: number = now.setMinutes(now.getMinutes() + expiresIn);
+    localStorage.setItem('expires_at', expiresAt.toString());
   }
 
   logoutSession() {
     localStorage.removeItem('token');
-    localStorage.removeItem('expires_in');
-    this.router.navigate(['../login'], { queryParams: { message: 'logout' }, relativeTo: this.route });
+    localStorage.removeItem('expires_at');
+    this.router.navigate(['/login'], { queryParams: { message: 'logout' } });
   }
 
-  checkSession() {
-    if(!localStorage.getItem('token')) {
-      this.router.navigate(['../login'], { relativeTo: this.route });
+  checkSession(): boolean {
+    if(!localStorage.getItem('token') || !localStorage.getItem('expires_at')) {
+      this.router.navigate(['/login']);
+      return false;
+    }
+    else {
+      const expiresAt: any = localStorage.getItem('expires_at');
+      if(Date.now() > expiresAt) {
+        this.logoutSession();
+        return false;
+      }
+      return true;
     }
   }
 

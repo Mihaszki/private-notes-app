@@ -14,14 +14,14 @@
   <div class="firstnote" *ngIf="notesNumber == 0">You don't have any notes yet!<br><a routerLink="/notes/new">Add a new note.</a></div>
 
   <div class="flex-container" *ngIf="notesNumber > 0">
-      <div class="item-button"><div class="addbutton" title="Add a new note" routerLink="/notes/new"></div></div>
+      <div class="item-button"><div class="addbutton material-icons" title="Add a new note" routerLink="/notes/new">add_circle</div></div>
 
       <div class="item" *ngFor="let note of this.user.notes">
         <div class="title"><b>{{ (note.title.length > 60) ? (note.title | slice:0:60) + '...' : (note.title) }}</b></div>
         <div class="buttons">
-          <a routerLink="/notes/view/{{ note._id }}" title="View"><div class="viewbtn">View</div></a>
-          <a routerLink="/notes/edit/{{ note._id }}" title="Edit"><div class="editbtn">Edit</div></a>
-          <a (click)="deleteNote(note._id)" title="Delete"><div class="deletebtn">Delete</div></a>
+          <a routerLink="/notes/view/{{ note._id }}" title="View"><span class="material-icons">launch</span></a>
+          <a routerLink="/notes/edit/{{ note._id }}" title="Edit"><span class="material-icons">edit</span></a>
+          <a (click)="deleteNote(note._id)" title="Delete"><span class="material-icons">delete_forever</span></a>
         </div>
         <div class="body"><p>{{ (note.body.length > 300) ? (note.body | slice:0:300) + '...' : (note.body) }}</p></div>
         <div class="date">
@@ -31,3 +31,5 @@
       </div>
   </div>
 </div>
+
+<app-footer></app-footer>

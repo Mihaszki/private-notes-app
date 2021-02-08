@@ -1,4 +1,4 @@
-<div class="header">
+<div class="header" [class.sticky]="isSticky">
   <a routerLink="/notes"><strong>Private Notes</strong></a>
   <a routerLink="/notes/new">New Note</a>
   <a (click)="logout()" class="right">Sign out</a>

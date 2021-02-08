@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
 
@@ -16,6 +16,13 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authService.logoutSession();
+  }
+
+  isSticky: boolean = false;
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll() {
+    this.isSticky = window.pageYOffset >= 50;
   }
 
 }

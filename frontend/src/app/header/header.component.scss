@@ -3,8 +3,20 @@
 .header {
   background: $primaryBg2;
   width: 100%;
-  box-shadow: 0px 0px 4px 1px $boxShadowColor;
   overflow: hidden;
+  font-size: 1.2rem;
+  height: 50px;
+  transition: 0.5s all;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  &.sticky {
+    box-shadow: 0px 0px 4px 1px $boxShadowColor;
+    position: fixed;
+    a {
+      padding: 14px 10px;
+    }
+  }
 
   a {
     color: $colorLight;
@@ -12,8 +24,8 @@
     display: block;
     padding: 14px 16px;
     text-align: center;
-    margin: 0;
-    font-size: 1.2rem;
+    transition: 0.5s all;
+    float: left;
   }
 
   a:hover {
@@ -21,7 +33,23 @@
     cursor: pointer;
   }
 
-  a {float: left; transition: 1s all;}
+  .right {float: right;}
+}
 
-  a.right {float: right;}
+@media (max-width: 800px) {
+  .header {
+    height: 30px;
+    font-size: 0.9rem;
+
+    a {
+       padding: 7px 8px;
+    }
+
+    &.sticky {
+      position: fixed;
+      a {
+        padding: 7px 8px;
+      }
+    }
+  }
 }

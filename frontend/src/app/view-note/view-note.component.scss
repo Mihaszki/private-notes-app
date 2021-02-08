@@ -5,27 +5,43 @@
   margin: 0 auto;
   margin-top: 25px;
   padding: 20px;
-  background: $background2;
   box-shadow: 0px 0px 1px 0px $colorDark;
 
   h2 {
     text-align: center;
     font-size: 2rem;
     word-break: break-all;
+    border-bottom: 2px solid $background2;
+    padding-bottom: 6px;
   }
 
   .text {
     white-space: pre;
+    word-break: break-word;
   }
 
   .date {
     margin-top: 15px;
     padding: 5px;
+    padding-top: 6px;
     font-size: 0.9rem;
+    border-top: 2px solid $background2;
 
     .createddate, .editeddate {
       width: 100%;
       text-align: right;
     }
+  }
+}
+
+@media (max-width: 1200px) {
+  .content {
+    width: 70%;
+  }
+}
+
+@media (max-width: 800px) {
+  .content {
+    width: 95%;
   }
 }

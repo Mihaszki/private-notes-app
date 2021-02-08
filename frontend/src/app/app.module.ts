@@ -14,6 +14,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { NoteEditorComponent } from './note-editor/note-editor.component';
 import { ViewNoteComponent } from './view-note/view-note.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ViewNoteComponent } from './view-note/view-note.component';
     HeaderComponent,
     FooterComponent,
     NoteEditorComponent,
-    ViewNoteComponent
+    ViewNoteComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

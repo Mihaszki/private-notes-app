@@ -1,14 +1,13 @@
 @import '../../styling/variables';
 
-.content {height: 100%;}
-
 .welcome {
   background: $background2;
   color: $colorLight;
   text-align: center;
   text-shadow: 1px 1px 5px $colorDark;
   background-image: url("../../assets/img/pexels-romka-2034373.jpg");
-  padding: 105px;
+  padding-top: 105px;
+  padding-bottom: 105px;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -50,29 +49,21 @@
 
 .item-button {
   margin: 10px;
+  min-width: 260px;
   width: 15%;
   text-align: center;
   .addbutton {
-    width: 80px;
-    height: 80px;
-    display: inline-block;
-    background:
-      linear-gradient($primaryBg2, $primaryBg2) top left,
-      linear-gradient($primaryBg2, $primaryBg2) top right,
-      linear-gradient($primaryBg2, $primaryBg2) bottom left,
-      linear-gradient($primaryBg2, $primaryBg2) bottom right;
-    border-radius: 50%;
-    background-size: calc(50% - 2px) calc(50% - 2px);
-    background-repeat: no-repeat;
-    border: 10px solid $primaryBg2;
+    color: $primaryBg2;
+    font-size: 6rem;
     transition: 1s all;
-    box-shadow: 0px 0px 2px 1px $boxShadowColor;
     &:hover {
-      box-shadow: 0px 0px 4px 2px $boxShadowColor;
+      text-shadow: 0px 0px 4px $boxShadowColor;
+      color: $primaryBg1;
       cursor: pointer;
     }
     &:hover, &:active, &:focus {
-      box-shadow: 0px 0px 4px 2px $boxShadowColor;
+      color: $primaryBg1;
+      text-shadow: 0px 0px 4px $boxShadowColor;
       outline: none;
     }
   }
@@ -81,21 +72,28 @@
 .flex-container {
   margin-top: 15px;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
+  margin: 0 auto;
+  width: 80%;
 
   .item {
     width: 15%;
+    min-width: 260px;
     margin: 10px;
     background: $background2;
     box-shadow: 0px 0px 2px 1px $boxShadowColor;
 
     .buttons {
-      a {color: $colorLight; font-size: 0.9rem;}
       text-align: center;
-      .deletebtn, .editbtn, .viewbtn {
+      .material-icons {
+        text-align: center;
+        font-size: 1.5rem;
         padding: 5px;
         width: (100% / 3);
         background: $primaryBg2;
+        color: $colorLight;
         display: inline-block;
         transition: 1s all;
         &:hover {
@@ -145,4 +143,34 @@
       .editeddate {text-align: right;}
     }
   }
+}
+
+@media (max-width: 1000px) {
+  .flex-container {
+    width: 90%;
+  }
+}
+
+@media (max-width: 800px) {
+  .flex-container {
+    width: 100%;
+    flex-direction: column;
+    .item-button, .item {
+      min-width: 95%;
+      width: 95%;
+      margin: 5px;
+    }
+  }
+
+  .welcome {
+    h1 {
+      font-size: 2.4rem;
+    }
+    div {
+      display: block;
+      margin: 5px;
+    }
+  }
+
+  .item-button {display: none;}
 }
