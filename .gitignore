@@ -1,9 +1,6 @@
 # dependencies
 **/node_modules
 
-# env file
-backend/.env
-
 # compiled output
 frontend/dist
 frontend/tmp
