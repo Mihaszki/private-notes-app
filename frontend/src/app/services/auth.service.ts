@@ -3,6 +3,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, shareReplay } from 'rxjs/operators';
 import { Router, ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { backendConfig } from '../backend.config';
+import { handleError } from '../shared/error.handler';
 
 @Injectable({
   providedIn: 'root'
@@ -16,36 +18,42 @@ export class AuthService {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     // Get clean URL without parameters
     const url = state.url.split('?')[0];
-    if(!localStorage.getItem('token') && (url === '/login' || url === '/register')) {
-      return true;
-    }
-    else if(localStorage.getItem('token') && (url === '/login' || url === '/register')) {
-      this.router.navigate(['/notes']);
+    const isLogged: boolean = this.isLoggedIn();
+    const session: boolean = this.checkSession();
+
+    if(isLogged && !session) {
+      this.logoutSession();
       return false;
     }
-    else if(localStorage.getItem('token')) {
-      if(!this.checkSession()) return false;
-      return true;
+    if(isLogged && session) {
+      if(url === '/login' || url === '/register') {
+        this.router.navigate(['/notes']);
+        return false;
+      }
+      else {return true;}
     }
     else {
-      this.router.navigate(['/login']);
-      return false;
+      if(url !== '/login' && url !== '/register') {
+        this.router.navigate(['/login']);
+        return false;
+      }
+      else {return true;}
     }
   }
 
   login(username: string, password: string) {
-    return this.http.post<any>('http://localhost:3000/api/auth/login', { username: username, password: password })
+    return this.http.post<any>(`${backendConfig.url}/auth/login`, { username: username, password: password })
     .pipe(
       tap((data: any) => this.createSession(data)),
-      catchError(this.handleError),
+      catchError(handleError),
       shareReplay()
     );
   }
 
   register(username: string, password: string) {
-    return this.http.post<any>('http://localhost:3000/api/auth/register', { username: username, password: password })
+    return this.http.post<any>(`${backendConfig.url}/auth/register`, { username: username, password: password })
     .pipe(
-      catchError(this.handleError),
+      catchError(handleError),
       shareReplay()
     );
   }
@@ -66,28 +74,15 @@ export class AuthService {
   }
 
   checkSession(): boolean {
-    if(!localStorage.getItem('token') || !localStorage.getItem('expires_at')) {
-      this.router.navigate(['/login']);
+    const expiresAt: any = localStorage.getItem('expires_at');
+    if(Date.now() > expiresAt) {
       return false;
     }
-    else {
-      const expiresAt: any = localStorage.getItem('expires_at');
-      if(Date.now() > expiresAt) {
-        this.logoutSession();
-        return false;
-      }
-      return true;
-    }
+    return true;
   }
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      console.error('An error occurred:', error.error.message);
-    }
-    else {
-      console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error.error}`);
-    }
-    // error.error.error is a message sent by backend
-    return throwError(error.error.error ? error.error.error : 'Something bad happened; please try again later.');
+  isLoggedIn() {
+    if(!localStorage.getItem('token') || !localStorage.getItem('expires_at')) return false;
+    return true;
   }
 }

@@ -11,6 +11,8 @@
     <div class="title"><h2>Your Notes</h2></div>
   </div>
 
+  <div class="error-content" *ngIf="isBackendError">{{ backendErrorMessage }}</div>
+
   <div class="firstnote" *ngIf="notesNumber == 0">You don't have any notes yet!<br><a routerLink="/notes/new">Add a new note.</a></div>
 
   <div class="flex-container" *ngIf="notesNumber > 0">
@@ -19,11 +21,11 @@
       <div class="item" *ngFor="let note of this.user.notes">
         <div class="title"><b>{{ (note.title.length > 60) ? (note.title | slice:0:60) + '...' : (note.title) }}</b></div>
         <div class="buttons">
-          <a routerLink="/notes/view/{{ note._id }}" title="View"><span class="material-icons">launch</span></a>
-          <a routerLink="/notes/edit/{{ note._id }}" title="Edit"><span class="material-icons">edit</span></a>
-          <a (click)="deleteNote(note._id)" title="Delete"><span class="material-icons">delete_forever</span></a>
+          <a routerLink="/notes/view/{{ note._id }}" title="View" class="material-icons">launch</a>
+          <a routerLink="/notes/edit/{{ note._id }}" title="Edit" class="material-icons">edit</a>
+          <a (click)="deleteNote(note._id)" title="Delete" class="material-icons">delete_forever</a>
         </div>
-        <div class="body"><p>{{ (note.body.length > 300) ? (note.body | slice:0:300) + '...' : (note.body) }}</p></div>
+        <div class="body"><p>{{ note.preview }}</p></div>
         <div class="date">
           <div class="createddate">{{ note.date | date: 'dd.MM.yyyy HH:mm' }}</div>
           <div *ngIf="note.editedDate" class="editeddate">({{ note.editedDate | date: 'dd.MM.yyyy HH:mm' }})</div>

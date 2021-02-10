@@ -14,23 +14,35 @@ export class NotesComponent implements OnInit {
   user: any = {};
   notesNumber: number = 0;
 
+  isBackendError: boolean = false;
+  backendErrorMessage: string = '';
+
   ngOnInit(): void {
     this.notesService.getNotes()
     .subscribe((data) => {
       this.user = data.user;
       this.user.notes.reverse();
       this.notesNumber = this.user.notes.length;
-    }, error => console.log(error));
+    },
+    (error) => {
+      this.isBackendError = true;
+      this.backendErrorMessage = error;
+    });
   }
 
   deleteNote(id: string) {
     if(id) {
-       this.notesService.deleteNote(id).subscribe(() => {
+      this.notesService.deleteNote(id).subscribe(() => {
         const index = this.user.notes.findIndex((item: any) => {
           return item._id === id;
         });
         if (index !== -1) this.user.notes.splice(index, 1);
         this.notesNumber = this.user.notes.length;
+        this.isBackendError = false;
+       },
+       (error) => {
+         this.isBackendError = true;
+         this.backendErrorMessage = error;
        });
     }
   }

@@ -13,15 +13,24 @@ export class ViewNoteComponent implements OnInit {
 
   noteObj: any = {};
   paramId: string = '';
+  isBackendError: boolean = false;
+  backendErrorMessage: string = '';
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.paramId = params['id'];
+      this.notesService.getNotes()
+      .subscribe((data) => {
+        this.noteObj = data.user.notes.filter((item: any) => item._id === this.paramId)[0];
+        if(!this.noteObj) {
+          this.isBackendError = true;
+          this.backendErrorMessage = 'The note doesn\'t exists!';
+        }
+        this.isBackendError = false;
+      }, error => {
+        this.isBackendError = true;
+        this.backendErrorMessage = error;
+      });
     });
-    this.notesService.getNotes()
-    .subscribe((data) => {
-      this.noteObj = data.user.notes.filter((item: any) => item._id === this.paramId);
-    }, error => console.log(error));
   }
-
 }

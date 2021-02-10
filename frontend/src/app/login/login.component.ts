@@ -29,8 +29,7 @@ export class LoginComponent implements OnInit {
   });
 
   onSubmit() {
-    this.authService.login(this.loginForm.controls['userName'].value,
-    this.loginForm.controls['password'].value)
+    this.authService.login(this.userName?.value, this.password?.value)
     .subscribe(() => {
       this.router.navigate(['../notes'], { relativeTo: this.route });
     }, error => {

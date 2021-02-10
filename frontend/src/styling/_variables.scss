@@ -23,3 +23,14 @@ $boxShadowColor: rgba(0,0,0,0.75);
   color: $colorError;
   font-size: 0.9rem;
 }
+
+
+.error-content {
+  text-align: center;
+  margin: 20px auto;
+  font-size: 2.5rem;
+  color: $colorError;
+  span {
+    font-size: 2.5rem;
+  }
+}

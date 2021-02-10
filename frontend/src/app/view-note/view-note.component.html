@@ -1,12 +1,14 @@
 <app-header></app-header>
 
-<div class="content">
-  <h2 class="title">{{ noteObj[0].title }}</h2>
-  <div class="text">{{ noteObj[0].body }}</div>
+<div class="content" *ngIf="!isBackendError">
+  <h2 class="title">{{ noteObj.title }}</h2>
+  <div class="text"><p>{{ noteObj.body }}</p></div>
   <div class="date">
-    <div class="createddate">Created at: {{ noteObj[0].date | date: 'dd.MM.yyyy HH:mm' }}</div>
-    <div *ngIf="noteObj[0].editedDate" class="editeddate">Edited at: {{ noteObj[0].editedDate | date: 'dd.MM.yyyy HH:mm' }}</div>
+    <div class="createddate">Created at: {{ noteObj.date | date: 'dd.MM.yyyy HH:mm' }}</div>
+    <div *ngIf="noteObj.editedDate" class="editeddate">Edited at: {{ noteObj.editedDate | date: 'dd.MM.yyyy HH:mm' }}</div>
   </div>
 </div>
+
+<div class="error-content" *ngIf="isBackendError">{{ backendErrorMessage }}<br><span class="material-icons">sentiment_very_dissatisfied</span></div>
 
 <app-footer></app-footer>

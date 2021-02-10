@@ -15,6 +15,8 @@ export class NoteEditorComponent implements OnInit {
   isUserEditing: boolean = false;
   formTitle: string = 'Create A New Note';
   paramId: string = '';
+  isBackendError: boolean = false;
+  backendErrorMessage: string = '';
 
   editorForm = this.fb.group({
     title: ['', [Validators.required, Validators.maxLength(100)]],
@@ -30,22 +32,22 @@ export class NoteEditorComponent implements OnInit {
     else {
       this.route.params.subscribe(params => {
         this.paramId = params['id'];
+        this.isUserEditing = true;
+        this.formTitle = 'Edit your note';
+        this.notesService.getNotes()
+        .subscribe((data) => {
+          const getNoteById = data.user.notes.filter((item: any) => item._id === this.paramId);
+          if(getNoteById.length === 0) {
+            this.router.navigate(['../../'], { relativeTo: this.route });
+          }
+          else {
+            this.editorForm.patchValue({
+              title: getNoteById[0].title,
+              text: getNoteById[0].body
+            });
+          }
+        }, error => console.log(error));
       });
-      this.isUserEditing = true;
-      this.formTitle = 'Edit your note';
-      this.notesService.getNotes()
-      .subscribe((data) => {
-        const getNoteById = data.user.notes.filter((item: any) => item._id === this.paramId);
-        if(getNoteById.length === 0) {
-          this.router.navigate(['../../'], { relativeTo: this.route });
-        }
-        else {
-          this.editorForm.patchValue({
-            title: getNoteById[0].title,
-            text: getNoteById[0].body
-          });
-        }
-      }, error => console.log(error));
     }
   }
 
@@ -57,20 +59,21 @@ export class NoteEditorComponent implements OnInit {
   saveNote() {
     this.notesService.saveNote(this.title?.value, this.text?.value)
     .subscribe(() => {
-      this.router.navigate(['../'], { relativeTo: this.route });
-    }, error => {
-      // this.isBackendError = true;
-      // this.backendErrorMessage = error;
+      this.router.navigate(['/notes']);
+    },
+    error => {
+      this.isBackendError = true;
+      this.backendErrorMessage = error;
     });
   }
 
   editNote() {
     this.notesService.editNote(this.paramId, this.title?.value, this.text?.value)
     .subscribe(() => {
-      this.router.navigate(['../../']);
+      this.router.navigate(['/notes']);
     }, error => {
-      // this.isBackendError = true;
-      // this.backendErrorMessage = error;
+      this.isBackendError = true;
+      this.backendErrorMessage = error;
     });
   }
 

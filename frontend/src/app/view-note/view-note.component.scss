@@ -15,9 +15,9 @@
     padding-bottom: 6px;
   }
 
-  .text {
-    white-space: pre;
-    word-break: break-word;
+  .text p {
+    white-space: pre-wrap;
+    word-wrap: break-word;
   }
 
   .date {
