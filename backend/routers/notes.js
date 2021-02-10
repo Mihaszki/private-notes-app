@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const userModel = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const jwtValidator = require('../middleware/jwtValidator');
+const textParser = require('../middleware/textParser');
 require('dotenv').config();
 
 // Get user by ID from token
@@ -36,13 +37,14 @@ router.delete('/:noteid', jwtValidator, async (req, res) => {
 });
 
 // Update user's note
-router.put('/:noteid', jwtValidator, async (req, res) => {
+router.put('/:noteid', jwtValidator, textParser, async (req, res) => {
   try {
     const note = await userModel.findOneAndUpdate({ _id: req.userid._id, 'notes._id': req.params.noteid },
     {
       $set: {
         'notes.$.title': req.body.title,
         'notes.$.body': req.body.body,
+        'notes.$.preview': req.preview,
         'notes.$.editedDate': Date.now()
       }
     }, {
@@ -56,14 +58,15 @@ router.put('/:noteid', jwtValidator, async (req, res) => {
 });
 
 // Add note to notes array
-router.post('/', jwtValidator, async (req, res) => {
+router.post('/', jwtValidator, textParser, async (req, res) => {
   try {
     const note = await userModel.findOneAndUpdate({ _id: req.userid._id },
     {
       $push: {
         notes: {
           body: req.body.body,
-          title: req.body.title
+          title: req.body.title,
+          preview: req.preview
         } 
       }
     }, {

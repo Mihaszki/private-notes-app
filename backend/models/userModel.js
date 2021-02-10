@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
     {
       body: String,
       title: String,
+      preview: String,
       date: { type: Date, default: Date.now },
       editedDate: Date
     }
