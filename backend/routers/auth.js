@@ -24,10 +24,7 @@ router.post('/register', async (req, res) => {
     });
   }
   catch (err) {
-    res.status(400).json({ message: {
-      username: err.errors.username?.properties.type,
-      password: err.errors.password?.properties.type,
-    }});
+    res.status(400).json({ message: 'Bad username or password!' });
   }
 });
 
