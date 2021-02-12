@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute } from '@angular/router';
 import { Validators, FormBuilder } from '@angular/forms';
-import { NotesService } from "../services/notes.service";
+import { NotesService } from '../services/notes.service';
+import { BackendError } from '../shared/backend.error';
 
 @Component({
   selector: 'app-note-editor',
@@ -10,27 +11,26 @@ import { NotesService } from "../services/notes.service";
 })
 export class NoteEditorComponent implements OnInit {
 
-  constructor(private notesService: NotesService, private router: Router, private fb: FormBuilder, private route: ActivatedRoute) { }
+  constructor(public backendError: BackendError, private notesService: NotesService, private router: Router, private fb: FormBuilder, private route: ActivatedRoute) { }
 
   isUserEditing: boolean = false;
   formTitle: string = 'Create A New Note';
   paramId: string = '';
-  isBackendError: boolean = false;
-  backendErrorMessage: string = '';
+  contentError: boolean = false;
 
   editorForm = this.fb.group({
     title: ['', [Validators.required, Validators.maxLength(100)]],
-    text: ['', [Validators.required, Validators.maxLength(1000)]]
+    text: ['', [Validators.required, Validators.maxLength(3000)]]
   });
 
+
+
   ngOnInit(): void {
-    // Same editor is used for editing and creating new notes
-    // Checking which version is needed
-    if (this.router.url === '/notes/new') {
-      this.isUserEditing = false;
-    }
-    else {
-      this.route.params.subscribe(params => {
+    this.backendError.isError = false;
+    this.route.params.subscribe(params => {
+      // Same component is used for editing and creating new notes
+      // Checking which version is needed
+      if (this.router.url !== '/notes/new') {
         this.paramId = params['id'];
         this.isUserEditing = true;
         this.formTitle = 'Edit your note';
@@ -38,7 +38,7 @@ export class NoteEditorComponent implements OnInit {
         .subscribe((data) => {
           const getNoteById = data.user.notes.filter((item: any) => item._id === this.paramId);
           if(getNoteById.length === 0) {
-            this.router.navigate(['../../'], { relativeTo: this.route });
+            this.contentError = true;
           }
           else {
             this.editorForm.patchValue({
@@ -46,9 +46,13 @@ export class NoteEditorComponent implements OnInit {
               text: getNoteById[0].body
             });
           }
-        }, error => console.log(error));
-      });
-    }
+        },
+        error => this.backendError.error(error));
+      }
+      else {
+        this.isUserEditing = false;
+      }
+    });
   }
 
   onSubmit() {
@@ -61,23 +65,16 @@ export class NoteEditorComponent implements OnInit {
     .subscribe(() => {
       this.router.navigate(['/notes']);
     },
-    error => {
-      this.isBackendError = true;
-      this.backendErrorMessage = error;
-    });
+    error => this.backendError.error(error));
   }
 
   editNote() {
     this.notesService.editNote(this.paramId, this.title?.value, this.text?.value)
     .subscribe(() => {
       this.router.navigate(['/notes']);
-    }, error => {
-      this.isBackendError = true;
-      this.backendErrorMessage = error;
-    });
+    }, error => this.backendError.error(error));
   }
 
   get text() { return this.editorForm.get('text'); }
   get title() { return this.editorForm.get('title'); }
-
 }

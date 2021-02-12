@@ -68,5 +68,11 @@
 @media (max-width: 800px) {
   .content {
     width: 95%;
+
+    form {
+      button, button[disabled] {
+        width: 100%;
+      }
+    }
   }
 }

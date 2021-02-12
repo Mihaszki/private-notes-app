@@ -3,6 +3,7 @@ import { Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { confirmedValidator } from '../shared/confirmed.validator';
+import { BackendError } from '../shared/backend.error';
 
 @Component({
   selector: 'app-register',
@@ -10,13 +11,11 @@ import { confirmedValidator } from '../shared/confirmed.validator';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
+  constructor(public backendError: BackendError, private authService: AuthService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.backendError.isError = false;
   }
-
-  isBackendError: boolean = false;
-  backendErrorMessage: string = '';
 
   registerForm = this.fb.group({
     userName: ['', [Validators.required, Validators.maxLength(20)]],
@@ -30,10 +29,7 @@ export class RegisterComponent implements OnInit {
     this.authService.register(this.userName?.value, this.password?.value)
     .subscribe(() => {
       this.router.navigate(['../login'], { relativeTo: this.route, queryParams: { message: 'newaccount' } });
-    }, error => {
-      this.isBackendError = true;
-      this.backendErrorMessage = error;
-    });
+    }, error => this.backendError.error(error));
   }
 
   get userName() { return this.registerForm.get('userName'); }

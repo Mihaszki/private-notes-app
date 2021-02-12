@@ -1,6 +1,4 @@
-<app-header></app-header>
-
-<div class="content" *ngIf="!isBackendError">
+<div class="content" *ngIf="!contentError">
   <h2>{{ formTitle }}</h2>
   <form [formGroup]="editorForm" (ngSubmit)="onSubmit()">
     <label>
@@ -16,7 +14,7 @@
 
     <label>
       Text:
-      <textarea formControlName="text" maxlength="1000" required></textarea>
+      <textarea formControlName="text" maxlength="3000" required></textarea>
     </label>
     <div class="error">
       <div *ngIf="text && text.invalid && (text.dirty || text.touched)">
@@ -29,6 +27,4 @@
   </form>
 </div>
 
-<div class="error-content" *ngIf="isBackendError">{{ backendErrorMessage }}</div>
-
-<app-footer></app-footer>
+<div class="error-content" *ngIf="contentError">The note doesn't exist!<br><span class="material-icons">sentiment_very_dissatisfied</span></div>

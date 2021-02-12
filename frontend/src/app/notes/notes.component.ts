@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotesService } from '../services/notes.service';
+import { BackendError } from '../shared/backend.error';
 
 @Component({
   selector: 'app-notes',
@@ -9,25 +10,20 @@ import { NotesService } from '../services/notes.service';
 })
 
 export class NotesComponent implements OnInit {
-  constructor(private router: Router, private route: ActivatedRoute, private notesService: NotesService) { }
+  constructor(public backendError: BackendError, private router: Router, private route: ActivatedRoute, private notesService: NotesService) { }
 
   user: any = {};
   notesNumber: number = 0;
 
-  isBackendError: boolean = false;
-  backendErrorMessage: string = '';
-
   ngOnInit(): void {
+    this.backendError.isError = false;
     this.notesService.getNotes()
     .subscribe((data) => {
       this.user = data.user;
       this.user.notes.reverse();
       this.notesNumber = this.user.notes.length;
     },
-    (error) => {
-      this.isBackendError = true;
-      this.backendErrorMessage = error;
-    });
+    error => this.backendError.error(error));
   }
 
   deleteNote(id: string) {
@@ -38,12 +34,8 @@ export class NotesComponent implements OnInit {
         });
         if (index !== -1) this.user.notes.splice(index, 1);
         this.notesNumber = this.user.notes.length;
-        this.isBackendError = false;
        },
-       (error) => {
-         this.isBackendError = true;
-         this.backendErrorMessage = error;
-       });
+       error => this.backendError.error(error));
     }
   }
 }

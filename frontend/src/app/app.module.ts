@@ -15,7 +15,7 @@ import { FooterComponent } from './footer/footer.component';
 import { NoteEditorComponent } from './note-editor/note-editor.component';
 import { ViewNoteComponent } from './view-note/view-note.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

@@ -119,6 +119,7 @@
         vertical-align: middle;
         line-height: normal;
         word-break: break-all;
+        margin: 5px;
       }
     }
     .body {
@@ -138,7 +139,8 @@
         position: absolute;
         left: 0;
         top: 1px;
-        background: linear-gradient(transparent 150px, $background2);
+        pointer-events: none;
+        background: linear-gradient(transparent 100px, $background2);
       }
     }
     .date {
@@ -166,10 +168,8 @@
 @media (max-width: 800px) {
   .flex-container {
     width: 100%;
-    flex-direction: column;
     .item-button, .item {
-      min-width: 95%;
-      width: 95%;
+      width: 40%;
       margin: 5px;
     }
   }
@@ -183,6 +183,22 @@
       margin: 5px;
     }
   }
+}
+
+@media (max-width: 570px) {
+  .flex-container {
+    flex-direction: column;
+    .item-button, .item {
+      min-width: 95%;
+      width: 95%;
+      margin: 5px;
+      p {
+        text-align: center;
+      }
+    }
+  }
+
+  .welcome {h1 {font-size: 2rem;}}
 
   .item-button {display: none;}
 }

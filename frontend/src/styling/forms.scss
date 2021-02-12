@@ -1,11 +1,18 @@
 .bgimage {
+  background-color: $background2;
   background-image: url("../assets/img/pexels-romka-2034373.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  position: fixed;
+  pointer-events: none;
 
   &::before {
+    pointer-events: none;
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
     content: "";
