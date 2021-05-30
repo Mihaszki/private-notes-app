@@ -11,5 +11,5 @@ Application designed to save and edit your private notes. Created with Angular 1
 
 ### Runnig backend
 * Install node packages with `npm install`
-* Run it with: `node app.js`
+* Run it with: `node index.js`
 * You can edit MongoDB address and JWT options in `.env` file
